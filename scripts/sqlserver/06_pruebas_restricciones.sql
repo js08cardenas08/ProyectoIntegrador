@@ -1,5 +1,6 @@
 /* =====================================================================
    PROYECTO INTEGRADOR - CASO 5: GESTIÓN DEPORTIVA
+   Integrantes: Juan Sebastián Cárdenas, Juan David Segura
    Script 06: pruebas de restricciones y reglas de negocio
    ---------------------------------------------------------------------
    Cómo funciona:

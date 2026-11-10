@@ -1,5 +1,6 @@
 /* =====================================================================
    PROYECTO INTEGRADOR - CASO 5: GESTIÓN DEPORTIVA
+   Integrantes: Juan Sebastián Cárdenas, Juan David Segura
    Script 02: restricciones (FK, UNIQUE, CHECK), índices y triggers
    ---------------------------------------------------------------------
    Convención de nombres:

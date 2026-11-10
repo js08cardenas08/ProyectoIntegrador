@@ -1,5 +1,6 @@
 /* =====================================================================
    PROYECTO INTEGRADOR - CASO 5: GESTIÓN DEPORTIVA
+   Integrantes: Juan Sebastián Cárdenas, Juan David Segura
    Script 07: metadatos de la implementación (verificación del diccionario)
    ---------------------------------------------------------------------
    Lee el catálogo de SQL Server (sys.*) y muestra, para cada columna,

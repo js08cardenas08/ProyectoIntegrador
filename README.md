@@ -8,7 +8,7 @@ deportistas, entrenadores, equipos, escenarios, torneos y encuentros.
 |---|---|
 | **Caso asignado** | Caso 5 — Gestión deportiva |
 | **Asignatura** | Bases de Datos — Ingeniería de Datos e Inteligencia Artificial |
-| **Integrantes** | _(completar con nombre y código de cada integrante)_ |
+| **Integrantes** | Juan Sebastián Cárdenas · Juan David Segura |
 | **Base SQL Server** | `GestionDeportiva` (12 tablas, 3 vistas, 5 triggers) |
 | **Colección MongoDB** | `gestion_deportiva.perfil_deportivo` |
 
@@ -163,11 +163,13 @@ dot -Tpng -Gdpi=150 diagramas/er/modelo_er.dot -o diagramas/er/modelo_er.png
 * **MongoDB:** `perfil_deportivo` con validador `$jsonSchema`, índice único por deportista y CRUD
   verificado; los registros oficiales siguen en SQL Server.
 
-## Declaración de uso de herramientas de IA
+## Autores
 
-En el desarrollo de este proyecto se utilizó un asistente de inteligencia artificial (Claude, de Anthropic)
-como apoyo para estructurar el diseño, escribir y depurar los scripts SQL y MongoDB, el generador de datos
-y la documentación, y para ejecutar las pruebas. Los resultados reportados provienen de la ejecución real
-de los scripts (ver `evidencias/`). El equipo revisó el trabajo y es responsable de explicar y sustentar el
-diseño, las restricciones, las consultas y las decisiones técnicas. Detalle en
-[`documentacion/bitacora.md`](documentacion/bitacora.md).
+Proyecto desarrollado por **Juan Sebastián Cárdenas** y **Juan David Segura**, integrantes y responsables del
+proyecto integrador.
+
+## Uso de inteligencia artificial
+
+Usamos Claude (Anthropic) como apoyo para generar y depurar los scripts SQL, MongoDB y Python, ejecutar las
+pruebas y redactar la documentación. Los resultados que reportamos salen de ejecuciones reales guardadas en
+`evidencias/`. Nosotros respondemos por el contenido del proyecto y por su sustentación.

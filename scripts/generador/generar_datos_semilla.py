@@ -1,5 +1,6 @@
 """
 Proyecto integrador - Caso 5: Gestión deportiva
+Integrantes: Juan Sebastián Cárdenas, Juan David Segura
 Generador de datos semilla sintéticos para SQL Server.
 
 Produce el archivo scripts/sqlserver/03_datos_semilla.sql con INSERT
@@ -575,6 +576,7 @@ def bloque_insert(tabla: str, columnas: list, filas: list, out: list):
 
 out = [f"""/* =====================================================================
    PROYECTO INTEGRADOR - CASO 5: GESTIÓN DEPORTIVA
+   Integrantes: Juan Sebastián Cárdenas, Juan David Segura
    Script 03: datos semilla sintéticos
    ---------------------------------------------------------------------
    ARCHIVO GENERADO AUTOMÁTICAMENTE por scripts/generador/generar_datos_semilla.py

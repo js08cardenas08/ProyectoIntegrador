@@ -1,5 +1,6 @@
 /* =====================================================================
    PROYECTO INTEGRADOR - CASO 5: GESTIÓN DEPORTIVA
+   Integrantes: Juan Sebastián Cárdenas, Juan David Segura
    Script 04: vistas
    ---------------------------------------------------------------------
    Las vistas guardan JOIN que se repiten en varias consultas de negocio.

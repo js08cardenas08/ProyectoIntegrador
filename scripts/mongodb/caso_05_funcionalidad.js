@@ -1,5 +1,6 @@
 /* =====================================================================
    PROYECTO INTEGRADOR - CASO 5: GESTIÓN DEPORTIVA
+   Integrantes: Juan Sebastián Cárdenas, Juan David Segura
    MongoDB - colección perfil_deportivo
    ---------------------------------------------------------------------
    Guarda características COMPLEMENTARIAS y VARIABLES de un deportista

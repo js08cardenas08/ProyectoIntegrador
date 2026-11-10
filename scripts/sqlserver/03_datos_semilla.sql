@@ -1,5 +1,6 @@
 ﻿/* =====================================================================
    PROYECTO INTEGRADOR - CASO 5: GESTIÓN DEPORTIVA
+   Integrantes: Juan Sebastián Cárdenas, Juan David Segura
    Script 03: datos semilla sintéticos
    ---------------------------------------------------------------------
    ARCHIVO GENERADO AUTOMÁTICAMENTE por scripts/generador/generar_datos_semilla.py

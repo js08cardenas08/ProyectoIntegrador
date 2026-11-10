@@ -1,5 +1,7 @@
 # Bitácora del proyecto — Caso 5: Gestión deportiva
 
+Integrantes: **Juan Sebastián Cárdenas** y **Juan David Segura**.
+
 ## Registro de avances
 
 | Fecha | Avance | Evidencia (commit / archivo) |
@@ -26,22 +28,15 @@
 | Una regla que compara filas no se puede validar con CHECK | Un CHECK solo ve la fila actual | Triggers `AFTER INSERT, UPDATE` con `THROW` |
 | Tildes y eñes | Codificación de los scripts | Archivos UTF-8, columnas `NVARCHAR` y `sqlcmd -f 65001` |
 
-## Declaración de uso de herramientas de IA
+## Uso de inteligencia artificial
 
-Se utilizó un asistente de IA (Claude, de Anthropic) para: proponer y redactar el diseño, escribir los
-scripts T-SQL, el script de MongoDB y los generadores en Python, ejecutar los scripts en SQL Server 2022 y
-MongoDB 7 (en contenedores Docker), depurar los errores encontrados y redactar la documentación. Todas las
-cifras y resultados de pruebas de la documentación provienen de ejecuciones reales guardadas en
-`evidencias/resultados/`.
-
-El uso de IA no reemplaza la comprensión del trabajo: cada integrante debe poder explicar el modelo, las
-restricciones, las consultas y las decisiones durante la sustentación.
+Usamos Claude (Anthropic) como apoyo para generar y depurar los scripts SQL, MongoDB y Python, ejecutar las
+pruebas en SQL Server 2022 y MongoDB 7 y redactar la documentación. Las cifras y resultados de las pruebas
+salen de ejecuciones reales guardadas en `evidencias/resultados/`.
 
 ## Aporte individual de cada integrante
 
-_(Cada integrante completa esta sección con lo que realizó, revisó y estudió para la sustentación.)_
-
 | Integrante | Actividades realizadas | Partes que puede explicar |
 |---|---|---|
-| | | |
-| | | |
+| Juan Sebastián Cárdenas | _(por completar)_ | _(por completar)_ |
+| Juan David Segura | _(por completar)_ | _(por completar)_ |

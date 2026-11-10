@@ -1,5 +1,6 @@
 """
 Proyecto integrador - Caso 5: Gestión deportiva
+Integrantes: Juan Sebastián Cárdenas, Juan David Segura
 Genera el diccionario de datos (Markdown) y el diagrama del modelo relacional
 (Graphviz) A PARTIR DE LOS METADATOS REALES de SQL Server, para garantizar que
 la documentación coincide exactamente con la implementación.

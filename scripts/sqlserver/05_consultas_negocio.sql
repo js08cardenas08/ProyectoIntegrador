@@ -1,5 +1,6 @@
 /* =====================================================================
    PROYECTO INTEGRADOR - CASO 5: GESTIÓN DEPORTIVA
+   Integrantes: Juan Sebastián Cárdenas, Juan David Segura
    Script 05: consultas de negocio (10 preguntas del caso)
    ---------------------------------------------------------------------
    Cada consulta indica: pregunta, propósito para la organización y
