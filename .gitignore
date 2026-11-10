@@ -1,0 +1,13 @@
+# Credenciales y archivos locales (nunca subir contraseñas)
+.env
+*.env
+*.local
+secrets/
+# Python
+__pycache__/
+*.pyc
+.venv/
+# Sistema / editores
+.DS_Store
+Thumbs.db
+.vscode/
