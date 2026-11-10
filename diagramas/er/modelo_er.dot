@@ -1,0 +1,124 @@
+// Modelo Entidad-Relación conceptual - Caso 5: Gestión deportiva
+// Notación: rectángulo = entidad (PK subrayada), rombo = relación con sus atributos,
+// (mín,máx) junto a cada entidad = participación/cardinalidad de esa entidad en la relación.
+// Generar imagen:  dot -Tpng -Gdpi=150 modelo_er.dot -o modelo_er.png
+graph ER {
+  graph [layout=dot, rankdir=LR, splines=true, nodesep=0.45, ranksep=0.9, fontname="Helvetica",
+         label=<<B>Caso 5 — Gestión deportiva: modelo Entidad-Relación</B><BR/><FONT POINT-SIZE="11">Rectángulo = entidad (identificador subrayado) · Rombo = relación (atributos de la relación debajo) · (mín,máx) = participación de la entidad en la relación · N = muchos</FONT>>,
+         labelloc=t, fontsize=20, pad=0.3];
+  node  [fontname="Helvetica", fontsize=11];
+  edge  [fontname="Helvetica", fontsize=11, color="#444444"];
+
+  // ---------------- ENTIDADES ----------------
+  node [shape=plain];
+  PERSONA [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#E8F1FB">
+    <TR><TD BGCOLOR="#2B6CB0"><FONT COLOR="white"><B>PERSONA</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><U>id_persona</U></TD></TR>
+    <TR><TD ALIGN="LEFT">tipo_documento + numero_documento (único)</TD></TR>
+    <TR><TD ALIGN="LEFT">nombres, apellidos, fecha_nacimiento</TD></TR>
+    <TR><TD ALIGN="LEFT">sexo, correo (único), telefono</TD></TR>
+    <TR><TD ALIGN="LEFT">fecha_registro</TD></TR></TABLE>>];
+  DEPORTISTA [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#E8F1FB">
+    <TR><TD BGCOLOR="#2B6CB0"><FONT COLOR="white"><B>DEPORTISTA</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><U>id_deportista</U></TD></TR>
+    <TR><TD ALIGN="LEFT">estado (DEFAULT 'ACTIVO')</TD></TR>
+    <TR><TD ALIGN="LEFT">fecha_ingreso</TD></TR></TABLE>>];
+  ENTRENADOR [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#E8F1FB">
+    <TR><TD BGCOLOR="#2B6CB0"><FONT COLOR="white"><B>ENTRENADOR</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><U>id_entrenador</U></TD></TR>
+    <TR><TD ALIGN="LEFT">numero_licencia (único)</TD></TR>
+    <TR><TD ALIGN="LEFT">nivel_licencia, anios_experiencia</TD></TR>
+    <TR><TD ALIGN="LEFT">estado, fecha_ingreso</TD></TR></TABLE>>];
+  DISCIPLINA [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#E8F1FB">
+    <TR><TD BGCOLOR="#2B6CB0"><FONT COLOR="white"><B>DISCIPLINA</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><U>id_disciplina</U></TD></TR>
+    <TR><TD ALIGN="LEFT">codigo (único)</TD></TR>
+    <TR><TD ALIGN="LEFT">deporte, modalidad, rama, categoria</TD></TR>
+    <TR><TD ALIGN="LEFT">tipo_participacion</TD></TR></TABLE>>];
+  EQUIPO [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#E8F1FB">
+    <TR><TD BGCOLOR="#2B6CB0"><FONT COLOR="white"><B>EQUIPO</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><U>id_equipo</U></TD></TR>
+    <TR><TD ALIGN="LEFT">codigo (único), nombre</TD></TR>
+    <TR><TD ALIGN="LEFT">ciudad, fecha_fundacion, estado</TD></TR></TABLE>>];
+  ESCENARIO [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#E8F1FB">
+    <TR><TD BGCOLOR="#2B6CB0"><FONT COLOR="white"><B>ESCENARIO</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><U>id_escenario</U></TD></TR>
+    <TR><TD ALIGN="LEFT">codigo (único), nombre, tipo</TD></TR>
+    <TR><TD ALIGN="LEFT">ciudad, direccion</TD></TR>
+    <TR><TD ALIGN="LEFT">capacidad (&gt; 0), estado</TD></TR></TABLE>>];
+  TORNEO [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#E8F1FB">
+    <TR><TD BGCOLOR="#2B6CB0"><FONT COLOR="white"><B>TORNEO</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><U>id_torneo</U></TD></TR>
+    <TR><TD ALIGN="LEFT">codigo (único), nombre</TD></TR>
+    <TR><TD ALIGN="LEFT">fecha_inicio &lt;= fecha_fin</TD></TR>
+    <TR><TD ALIGN="LEFT">estado (DEFAULT 'PROGRAMADO')</TD></TR></TABLE>>];
+  ENCUENTRO [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" BGCOLOR="#E8F1FB">
+    <TR><TD BGCOLOR="#2B6CB0"><FONT COLOR="white"><B>ENCUENTRO</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT"><U>id_encuentro</U></TD></TR>
+    <TR><TD ALIGN="LEFT">fecha_hora, jornada</TD></TR>
+    <TR><TD ALIGN="LEFT">estado (DEFAULT 'PROGRAMADO')</TD></TR>
+    <TR><TD ALIGN="LEFT">puntaje_local, puntaje_visitante</TD></TR>
+    <TR><TD ALIGN="LEFT">resultado_definitivo (DEFAULT 0)</TD></TR></TABLE>>];
+
+  // ---------------- ESPECIALIZACIÓN ----------------
+  ISA [shape=triangle, label="o", style=filled, fillcolor="#FFF5D6", width=0.6, height=0.5, fontsize=14,
+       xlabel=<<FONT POINT-SIZE="10">es un<BR/>(solapada, parcial)</FONT>>];
+
+  // ---------------- RELACIONES ----------------
+  node [shape=diamond, style=filled, fillcolor="#FDE8E8", fontsize=10, width=1.4, height=0.8, margin=0.02];
+  PRACTICA   [label="PRACTICA\n(disciplina\nprincipal)"];
+  COMPITE    [label="COMPITE\nEN"];
+  ES_DE      [label="ES DE"];
+  DIRIGE     [label=<DIRIGE<BR/><FONT POINT-SIZE="9">rol<BR/>fecha_inicio<BR/>fecha_fin</FONT>>];
+  INTEGRA    [label=<INTEGRA<BR/><FONT POINT-SIZE="9">funcion, camiseta<BR/>fecha_inicio<BR/>fecha_fin</FONT>>];
+  INSCRIBE   [label=<SE INSCRIBE<BR/><FONT POINT-SIZE="9">fecha_inscripcion<BR/>estado (DEFAULT<BR/>'PENDIENTE')</FONT>>];
+  CONTIENE   [label="CONTIENE"];
+  SEDE       [label="ES SEDE\nDE"];
+  LOCAL      [label="JUEGA DE\nLOCAL"];
+  VISITANTE  [label="JUEGA DE\nVISITANTE"];
+  PARTICIPA  [label=<PARTICIPA<BR/><FONT POINT-SIZE="9">es_titular<BR/>minutos_jugados<BR/>calificacion</FONT>>];
+
+  // ---------------- CONEXIONES ----------------
+  PERSONA -- ISA;
+  ISA -- DEPORTISTA [label="(0,1)"];
+  ISA -- ENTRENADOR [label="(0,1)"];
+
+  DEPORTISTA -- PRACTICA [taillabel="(1,1)", labeldistance=2.2];
+  PRACTICA -- DISCIPLINA [headlabel="(0,N)", labeldistance=2.2];
+
+  EQUIPO -- COMPITE [taillabel="(1,1)", labeldistance=2.2];
+  COMPITE -- DISCIPLINA [headlabel="(0,N)", labeldistance=2.2];
+
+  TORNEO -- ES_DE [taillabel="(1,1)", labeldistance=2.2];
+  ES_DE -- DISCIPLINA [headlabel="(0,N)", labeldistance=2.2];
+
+  ENTRENADOR -- DIRIGE [taillabel="(0,N)", labeldistance=2.2];
+  DIRIGE -- EQUIPO [headlabel="(0,N)", labeldistance=2.2];
+
+  DEPORTISTA -- INTEGRA [taillabel="(0,N)", labeldistance=2.2];
+  INTEGRA -- EQUIPO [headlabel="(0,N)", labeldistance=2.2];
+
+  EQUIPO -- INSCRIBE [taillabel="(0,N)", labeldistance=2.2];
+  INSCRIBE -- TORNEO [headlabel="(0,N)", labeldistance=2.2];
+
+  TORNEO -- CONTIENE [taillabel="(0,N)", labeldistance=2.2];
+  CONTIENE -- ENCUENTRO [headlabel="(1,1)", labeldistance=2.2];
+
+  ESCENARIO -- SEDE [taillabel="(0,N)", labeldistance=2.2];
+  SEDE -- ENCUENTRO [headlabel="(1,1)", labeldistance=2.2];
+
+  EQUIPO -- LOCAL [taillabel="(0,N)", labeldistance=2.2];
+  LOCAL -- ENCUENTRO [headlabel="(1,1)", labeldistance=2.2];
+  EQUIPO -- VISITANTE [taillabel="(0,N)", labeldistance=2.2];
+  VISITANTE -- ENCUENTRO [headlabel="(1,1)", labeldistance=2.2];
+
+  DEPORTISTA -- PARTICIPA [taillabel="(0,N)", labeldistance=2.2];
+  PARTICIPA -- ENCUENTRO [headlabel="(0,N)", labeldistance=2.2];
+  PARTICIPA -- EQUIPO [label=" con el equipo\n(1,1) por participación", style=dashed, fontsize=9];
+
+  // Organización visual
+  { rank=same; PERSONA; }
+  { rank=same; DEPORTISTA; ENTRENADOR; }
+  { rank=same; DISCIPLINA; EQUIPO; }
+  { rank=same; TORNEO; ESCENARIO; }
+}
