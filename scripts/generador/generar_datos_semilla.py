@@ -135,12 +135,18 @@ def literal(v):
 disciplinas = []          # dicts
 for deporte, (cod, modalidades, perfil, aptos) in DEPORTES.items():
     for im, (modalidad, tipo, minutos) in enumerate(modalidades, start=1):
+        if modalidad in ("Fútbol Sala", "Sala", "Patines", "Indoor"):
+            aptos_modalidad = ("COLISEO", "GIMNASIO")      # modalidades bajo techo
+        elif modalidad == "Playa":
+            aptos_modalidad = ("CANCHA",)
+        else:
+            aptos_modalidad = aptos
         for rama, rcod in RAMAS:
             for categoria, ccod in CATEGORIAS:
                 disciplinas.append(dict(
                     id=len(disciplinas) + 1, codigo=f"{cod}-{im}-{rcod}-{ccod}", deporte=deporte,
                     modalidad=modalidad, rama=rama, categoria=categoria, tipo=tipo,
-                    minutos=minutos, perfil=perfil, aptos=aptos))
+                    minutos=minutos, perfil=perfil, aptos=aptos_modalidad))
 
 # Disciplinas "activas": con equipos, torneos y encuentros (deportes de conjunto,
 # categorías competitivas). El resto existe en el catálogo y tiene deportistas
@@ -367,7 +373,10 @@ for i in range(1, 1101):
     tipo, etiqueta, (cmin, cmax), _ = random.choices(TIPOS_ESCENARIO, weights=pesos_tipo)[0]
     while True:
         ciudad = random.choice(CIUDADES)
-        nombre = f"{etiqueta} {random.choice(['Municipal', 'Barrial', 'Comunitario', 'Distrital', 'Universitario', 'Olímpico', 'Central'])} {random.choice(BARRIOS)}"
+        adjetivo = random.choice(['Municipal', 'Barrial', 'Comunitario', 'Distrital', 'Universitario', 'Olímpico', 'Central'])
+        if etiqueta in ("Cancha", "Piscina", "Pista atlética"):          # concordancia en femenino
+            adjetivo = adjetivo.replace("rio", "ria").replace("pico", "pica")
+        nombre = f"{etiqueta} {adjetivo} {random.choice(BARRIOS)}"
         if (nombre, ciudad) not in nombres_escenario:
             nombres_escenario.add((nombre, ciudad))
             break
@@ -544,6 +553,8 @@ for disc in activas:
                                 calif = None if random.random() < 0.04 else Decimal1(round(min(10, max(2, random.gauss(base, 0.9))), 1))
                                 participaciones.append(dict(id=len(participaciones) + 1, encuentro=enc, deportista=m["deportista"],
                                                             equipo=eq, titular=titular, minutos=minutos, calificacion=calif))
+                # Método del círculo: el primero queda fijo y los demás rotan una posición
+                lista = [lista[0], lista[-1]] + lista[1:-1]
 
 
 # ---------------------------------------------------------------------------
