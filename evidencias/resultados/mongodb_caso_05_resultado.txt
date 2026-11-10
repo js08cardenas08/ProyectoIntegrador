@@ -1,0 +1,197 @@
+
+==================================================================
+1. Creación de la colección perfil_deportivo
+==================================================================
+Colección creada con validador $jsonSchema e índices: _id_, uq_id_deportista_sql, ix_deporte
+
+==================================================================
+2. insertMany: perfiles deportivos
+==================================================================
+Documentos insertados: 5
+Total en la colección: 5
+
+==================================================================
+3a. find con filtro simple: perfiles de Fútbol
+==================================================================
+[
+  {
+    id_deportista_sql: 1,
+    deporte: 'Fútbol',
+    posicion: 'Mediocampista central',
+    pie_dominante: 'derecho'
+  }
+]
+
+==================================================================
+3b. find sobre objeto anidado: prefieren entrenar en la mañana
+==================================================================
+[
+  {
+    id_deportista_sql: 1,
+    deporte: 'Fútbol',
+    preferencias_entrenamiento: {
+      enfoque: [
+        'resistencia aeróbica',
+        'pase largo'
+      ]
+    }
+  },
+  {
+    id_deportista_sql: 7001,
+    deporte: 'Atletismo',
+    preferencias_entrenamiento: {
+      enfoque: [
+        'salida de tacos',
+        'entrega del testigo'
+      ]
+    }
+  }
+]
+
+==================================================================
+3c. find sobre arreglo ($elemMatch): marcas en segundos menores a 13
+==================================================================
+[
+  {
+    id_deportista_sql: 1,
+    deporte: 'Fútbol',
+    marcas_personales: [
+      {
+        prueba: 'Test de Cooper',
+        valor: 3150,
+        unidad: 'm',
+        fecha: ISODate('2026-08-14T00:00:00.000Z')
+      },
+      {
+        prueba: 'Sprint 30 m',
+        valor: 4.21,
+        unidad: 's',
+        fecha: ISODate('2026-08-14T00:00:00.000Z')
+      }
+    ]
+  },
+  {
+    id_deportista_sql: 7001,
+    deporte: 'Atletismo',
+    marcas_personales: [
+      {
+        prueba: '100 m planos',
+        valor: 12.48,
+        unidad: 's',
+        fecha: ISODate('2026-07-12T00:00:00.000Z')
+      },
+      {
+        prueba: '200 m planos',
+        valor: 25.91,
+        unidad: 's',
+        fecha: ISODate('2026-06-21T00:00:00.000Z')
+      }
+    ]
+  }
+]
+
+==================================================================
+3d. find con campo variable ($exists): perfiles que registran posición
+==================================================================
+[
+  {
+    id_deportista_sql: 1,
+    deporte: 'Fútbol',
+    posicion: 'Mediocampista central'
+  },
+  {
+    id_deportista_sql: 421,
+    deporte: 'Baloncesto',
+    posicion: 'Base'
+  },
+  {
+    id_deportista_sql: 1126,
+    deporte: 'Voleibol',
+    posicion: 'Opuesto'
+  }
+]
+
+==================================================================
+4. insertOne: documento de prueba controlado
+==================================================================
+{
+  id_deportista_sql: 2871,
+  id_disciplina_sql: 274,
+  deporte: 'Béisbol',
+  fecha_actualizacion: ISODate('2026-11-01T10:00:00.000Z'),
+  posicion: 'Jardinero central',
+  batea: 'zurdo',
+  lanza: 'derecho',
+  es_prueba: true
+}
+
+==================================================================
+5. updateOne: se cambia la posición y se agrega una marca personal
+==================================================================
+Coincidencias: 1 | Modificados: 1
+{
+  id_deportista_sql: 2871,
+  id_disciplina_sql: 274,
+  deporte: 'Béisbol',
+  fecha_actualizacion: ISODate('2026-11-10T12:00:00.000Z'),
+  posicion: 'Primera base',
+  batea: 'zurdo',
+  lanza: 'derecho',
+  es_prueba: true,
+  marcas_personales: [
+    {
+      prueba: 'Velocidad de lanzamiento',
+      valor: 128.5,
+      unidad: 'km/h',
+      fecha: ISODate('2026-11-08T00:00:00.000Z')
+    }
+  ]
+}
+Verificación de la actualización: CORRECTA
+
+==================================================================
+6. deleteOne: se elimina únicamente el documento de prueba
+==================================================================
+Documentos eliminados: 1
+¿El documento de prueba sigue existiendo? NO (eliminado)
+Documentos restantes (deben ser 5): 5
+
+==================================================================
+7. Validación: documento sin id_deportista_sql (debe rechazarse)
+==================================================================
+Rechazado correctamente por el validador: Document failed validation
+Rechazado correctamente por el índice único: ya existe un perfil para id_deportista_sql = 1
+
+==================================================================
+Resumen final
+==================================================================
+[
+  {
+    id_deportista_sql: 1,
+    deporte: 'Fútbol',
+    fecha_actualizacion: ISODate('2026-10-20T09:30:00.000Z')
+  },
+  {
+    id_deportista_sql: 421,
+    deporte: 'Baloncesto',
+    fecha_actualizacion: ISODate('2026-10-28T15:00:00.000Z')
+  },
+  {
+    id_deportista_sql: 1126,
+    deporte: 'Voleibol',
+    fecha_actualizacion: ISODate('2026-10-05T11:15:00.000Z')
+  },
+  {
+    id_deportista_sql: 7001,
+    deporte: 'Atletismo',
+    fecha_actualizacion: ISODate('2026-09-18T08:00:00.000Z')
+  },
+  {
+    id_deportista_sql: 7041,
+    deporte: 'Natación',
+    fecha_actualizacion: ISODate('2026-10-30T07:45:00.000Z')
+  }
+]
+
+Referencias a verificar en SQL Server (dbo.deportista): 1, 421, 1126, 7001, 7041
+Tipo BSON de id_deportista_sql (debe ser int): 5 de 5 documentos
