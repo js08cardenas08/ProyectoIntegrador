@@ -3,8 +3,10 @@
 Este documento explica cómo se pasó del caso de negocio al modelo E-R, del E-R al modelo relacional, cómo
 se justificó la normalización hasta 3FN y por qué se tomó cada decisión técnica.
 
-* Diagrama E-R: [`diagramas/er/modelo_er.png`](../diagramas/er/modelo_er.png) (también `.pdf`, `.svg` y fuente `.dot`)
-* Diagrama relacional: [`diagramas/relacional/modelo_relacional.png`](../diagramas/relacional/modelo_relacional.png)
+* Diagrama E-R: [`diagramas/er/modelo_er.png`](../diagramas/er/modelo_er.png) (también `.pdf`)
+* Diagrama relacional: [`diagramas/relacional/modelo_relacional.png`](../diagramas/relacional/modelo_relacional.png) (también `.pdf`)
+* Los dos diagramas se hicieron en MySQL Workbench; el modelo editable es
+  [`diagramas/workbench/modelo_gestion_deportiva.mwb`](../diagramas/workbench/modelo_gestion_deportiva.mwb).
 * Diccionario de datos: [`diccionario_datos.md`](diccionario_datos.md)
 * Reglas de negocio y cómo se implementan: [`reglas_negocio.md`](reglas_negocio.md)
 

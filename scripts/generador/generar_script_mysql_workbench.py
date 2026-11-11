@@ -17,7 +17,7 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import generar_diccionario_y_relacional as base  # noqa: E402
+import generar_diccionario as base  # noqa: E402
 
 SALIDA = base.RAIZ / "diagramas" / "workbench" / "gestion_deportiva_mysql.sql"
 

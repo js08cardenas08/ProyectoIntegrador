@@ -1,16 +1,16 @@
 """
 Proyecto integrador - Caso 5: Gestión deportiva
 Integrantes: Juan Sebastián Cárdenas, Juan David Segura
-Genera el diccionario de datos (Markdown) y el diagrama del modelo relacional
-(Graphviz) A PARTIR DE LOS METADATOS REALES de SQL Server, para garantizar que
-la documentación coincide exactamente con la implementación.
+Genera el diccionario de datos (Markdown) A PARTIR DE LOS METADATOS REALES de
+SQL Server, para garantizar que la documentación coincide exactamente con la
+implementación. Los diagramas E-R y relacional se dibujan en MySQL Workbench
+(ver diagramas/workbench/).
 
 Pasos:
   1. Ejecutar scripts/sqlserver/07_metadatos_diccionario.sql con sqlcmd y guardar
      la salida separada por "|" en evidencias/resultados/07_metadatos_resultado.txt
      sqlcmd -S localhost -E -d GestionDeportiva -f 65001 -W -s "|" -i 07_metadatos_diccionario.sql -o ...
-  2. python scripts/generador/generar_diccionario_y_relacional.py
-  3. dot -Tpng -Gdpi=150 diagramas/relacional/modelo_relacional.dot -o diagramas/relacional/modelo_relacional.png
+  2. python scripts/generador/generar_diccionario.py
 
 Las descripciones de negocio de cada tabla y columna están en este archivo.
 """
@@ -21,7 +21,6 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[2]
 METADATOS = RAIZ / "evidencias" / "resultados" / "07_metadatos_resultado.txt"
 DICCIONARIO = RAIZ / "documentacion" / "diccionario_datos.md"
-DOT = RAIZ / "diagramas" / "relacional" / "modelo_relacional.dot"
 
 ORDEN_TABLAS = ["disciplina", "persona", "deportista", "entrenador", "equipo", "entrenador_equipo",
                 "integrante_equipo", "escenario", "torneo", "inscripcion", "encuentro", "participacion_encuentro"]
@@ -219,7 +218,7 @@ def main():
           "Base de datos: **GestionDeportiva** (Microsoft SQL Server). 12 tablas.", "",
           "> Este diccionario se generó a partir del catálogo real de SQL Server "
           "(`scripts/sqlserver/07_metadatos_diccionario.sql`) con "
-          "`scripts/generador/generar_diccionario_y_relacional.py`; por eso los tipos, longitudes, nulabilidad, "
+          "`scripts/generador/generar_diccionario.py`; por eso los tipos, longitudes, nulabilidad, "
           "DEFAULT y restricciones coinciden exactamente con la implementación. Las descripciones y reglas de "
           "negocio se redactaron para el caso.", "",
           "**Convenciones:** `pk_` clave primaria · `fk_` clave foránea · `uq_` único · `ck_` verificación · "
@@ -269,41 +268,7 @@ def main():
                 md.append(f"| `{tabla}` | `{c['columna']}` | `{padre}` | {card} |")
     DICCIONARIO.write_text("\n".join(md) + "\n", encoding="utf-8")
 
-    # ---------------- Diagrama relacional (Graphviz) ----------------
-    dot = ["// Modelo relacional - Caso 5: Gestión deportiva (generado desde el catálogo de SQL Server)",
-           "digraph relacional {",
-           '  graph [rankdir=LR, splines=spline, nodesep=0.35, ranksep=1.6, fontname="Helvetica", labelloc=t, fontsize=20, pad=0.3,',
-           '         label=<<B>Caso 5 — Gestión deportiva: modelo relacional (SQL Server)</B><BR/><FONT POINT-SIZE="11">PK = clave primaria · FK = clave foránea · UQ = único · UQc = parte de un UNIQUE compuesto · línea: padre (1, barra) → hija (N, pata de gallo)</FONT>>];',
-           '  node [shape=plain, fontname="Helvetica", fontsize=10];',
-           '  edge [color="#4A5568", arrowhead=crow, arrowtail=tee, dir=both, penwidth=1.2];']
-    for tabla in ORDEN_TABLAS:
-        filas = [f'<TR><TD COLSPAN="3" BGCOLOR="#22543D"><FONT COLOR="white"><B>{tabla}</B></FONT></TD></TR>']
-        uniques = {r["definicion"].strip() for r in restr_tabla[tabla] if r["tipo"] == "UNIQUE" and "," not in r["definicion"]}
-        uniques_comp = {x.strip() for r in restr_tabla[tabla] if r["tipo"] == "UNIQUE" and "," in r["definicion"] for x in r["definicion"].split(",")}
-        for c in por_tabla[tabla]:
-            marcas = []
-            if c["pk"]:
-                marcas.append("PK")
-            if c["fk"]:
-                marcas.append("FK")
-            if c["columna"] in uniques:
-                marcas.append("UQ")
-            elif c["columna"] in uniques_comp:
-                marcas.append("UQc")
-            nombre = f"<B>{c['columna']}</B>" if c["pk"] else c["columna"]
-            nulo = "" if c["nulabilidad"] == "NOT NULL" else " NULL"
-            filas.append(f'<TR><TD ALIGN="LEFT" PORT="{c["columna"]}">{nombre}</TD><TD ALIGN="LEFT">{tipo_completo(c)}{nulo}</TD>'
-                         + (f'<TD ALIGN="LEFT"><FONT COLOR="#9B2C2C">{" ".join(marcas)}</FONT></TD></TR>' if marcas else '<TD></TD></TR>'))
-        dot.append(f'  {tabla} [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" BGCOLOR="#F0FFF4">{"".join(filas)}</TABLE>>];')
-    for tabla in ORDEN_TABLAS:
-        for c in por_tabla[tabla]:
-            if c["fk"]:
-                padre, col = c["fk"].replace("FK -> ", "").split(".")
-                dot.append(f'  {padre}:{col}:e -> {tabla}:{c["columna"]}:w;')
-    dot.append("}")
-    DOT.write_text("\n".join(dot) + "\n", encoding="utf-8")
-    print("Generados:", DICCIONARIO.relative_to(RAIZ), DOT.relative_to(RAIZ))
-
+    print("Generado:", DICCIONARIO.relative_to(RAIZ))
 
 if __name__ == "__main__":
     main()

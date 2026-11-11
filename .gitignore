@@ -11,3 +11,5 @@ __pycache__/
 .DS_Store
 Thumbs.db
 .vscode/
+# Copias de respaldo de MySQL Workbench
+*.mwb.bak

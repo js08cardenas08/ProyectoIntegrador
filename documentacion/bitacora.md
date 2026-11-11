@@ -17,6 +17,8 @@ Integrantes: **Juan Sebastián Cárdenas** y **Juan David Segura**.
 | 2026-11-10 | Diagramas E-R y relacional; diccionario de datos generado desde el catálogo real | `diagramas/`, `diccionario_datos.md`, `07_metadatos_diccionario.sql` |
 | 2026-11-10 | Documentación de decisiones (normalización 3FN), reglas de negocio, README | `documentacion/` |
 | 2026-11-10 | Validación final: reconstrucción completa desde base vacía y re-ejecución de todas las pruebas | `evidencias/resultados/` |
+| 2026-11-11 | Diccionario de datos también en Excel | `documentacion/diccionario_datos.xlsx` |
+| 2026-11-11 | Diagramas E-R y relacional rehechos en MySQL Workbench a partir de la estructura traducida a MySQL; reemplazan a los anteriores | `diagramas/er/`, `diagramas/relacional/`, `diagramas/workbench/` |
 
 ## Problemas encontrados y cómo se resolvieron
 

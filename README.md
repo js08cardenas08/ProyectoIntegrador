@@ -32,10 +32,12 @@ competencias**. Reglas implementadas (detalle en [`documentacion/reglas_negocio.
 ```
 ├── README.md
 ├── diagramas/
-│   ├── er/                  modelo_er.png / .pdf / .svg / .dot   (modelo entidad-relación)
-│   └── relacional/          modelo_relacional.png / .pdf / .svg / .dot
+│   ├── er/                  modelo_er.png / .pdf          (E-R exportado de MySQL Workbench)
+│   ├── relacional/          modelo_relacional.png / .pdf  (relacional exportado de MySQL Workbench)
+│   └── workbench/           modelo_gestion_deportiva.mwb y gestion_deportiva_mysql.sql
 ├── documentacion/
 │   ├── diccionario_datos.md     diccionario completo (generado desde el catálogo de SQL Server)
+│   ├── diccionario_datos.xlsx   el mismo diccionario en Excel (una hoja)
 │   ├── decisiones_diseno.md     E-R, paso a relacional, normalización 3FN y decisiones técnicas
 │   ├── reglas_negocio.md        cada regla → mecanismo (PK, FK, CHECK, DEFAULT, trigger) → pruebas
 │   ├── consultas_negocio.md     las 10 consultas con su propósito e interpretación de resultados
@@ -56,7 +58,9 @@ competencias**. Reglas implementadas (detalle en [`documentacion/reglas_negocio.
 │   │   └── caso_05_funcionalidad.js         colección perfil_deportivo y CRUD
 │   └── generador/
 │       ├── generar_datos_semilla.py         genera 03_datos_semilla.sql (semilla fija 2026)
-│       └── generar_diccionario_y_relacional.py
+│       ├── generar_diccionario.py           diccionario de datos en Markdown
+│       ├── generar_diccionario_excel.py     diccionario de datos en Excel
+│       └── generar_script_mysql_workbench.py  estructura en MySQL para MySQL Workbench
 └── evidencias/resultados/       salidas reales de la ejecución de los scripts
 ```
 
@@ -67,7 +71,7 @@ competencias**. Reglas implementadas (detalle en [`documentacion/reglas_negocio.
 * **MongoDB 6 o superior** y `mongosh`. Probado en MongoDB 7.0.
 * *(Opcional)* Python 3.10+ solo si se quieren regenerar los datos semilla o el diccionario; no necesita
   librerías externas. El archivo `03_datos_semilla.sql` ya está generado en el repositorio.
-* *(Opcional)* Graphviz para regenerar los diagramas desde los archivos `.dot`.
+* *(Opcional)* MySQL Workbench 8.0 para abrir y editar los diagramas (`diagramas/workbench/modelo_gestion_deportiva.mwb`).
 
 ## Ejecución paso a paso (desde una base vacía)
 
@@ -140,12 +144,18 @@ mongosh "mongodb://localhost:27017" scripts/mongodb/caso_05_funcionalidad.js
 
 ```bash
 python scripts/generador/generar_datos_semilla.py           # vuelve a crear 03_datos_semilla.sql (idéntico)
-# diccionario y diagrama relacional a partir de los metadatos reales:
+# diccionario de datos a partir de los metadatos reales:
 sqlcmd -S localhost -E -d GestionDeportiva -f 65001 -W -s "|" -i scripts\sqlserver\07_metadatos_diccionario.sql -o evidencias\resultados\07_metadatos_resultado.txt
-python scripts/generador/generar_diccionario_y_relacional.py
-dot -Tpng -Gdpi=150 diagramas/relacional/modelo_relacional.dot -o diagramas/relacional/modelo_relacional.png
-dot -Tpng -Gdpi=150 diagramas/er/modelo_er.dot -o diagramas/er/modelo_er.png
+python scripts/generador/generar_diccionario.py
 ```
+
+**Diagramas.** Se hicieron en MySQL Workbench: el script `diagramas/workbench/gestion_deportiva_mysql.sql`
+(la misma estructura traducida al dialecto de MySQL) se importó con *File > Import > Reverse Engineer MySQL
+Create Script* y luego se ordenaron las tablas. Para cambiarlos se abre `modelo_gestion_deportiva.mwb` y se
+exporta con *File > Export*. El diagrama relacional usa la notación *Workbench (Default)*; el E-R usa
+*Workbench (PKs and FKs Only)*, que muestra solo las entidades, sus llaves y las relaciones con su
+cardinalidad (pata de gallo). Workbench no guarda las reglas CHECK ni los triggers de SQL Server; esas reglas
+están en `scripts/sqlserver/02_restricciones_y_reglas.sql` y en el diccionario.
 
 ## Resumen de la solución
 

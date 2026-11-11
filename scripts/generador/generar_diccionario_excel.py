@@ -5,7 +5,7 @@ Integrantes: Juan Sebastián Cárdenas, Juan David Segura
 Genera documentacion/diccionario_datos.xlsx: una sola hoja con una fila por
 columna de la base. Toma los metadatos reales de SQL Server
 (evidencias/resultados/07_metadatos_resultado.txt) y las descripciones de
-generar_diccionario_y_relacional.py.
+generar_diccionario.py.
 
 Uso:  python scripts/generador/generar_diccionario_excel.py
 """
@@ -17,7 +17,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import generar_diccionario_y_relacional as base  # noqa: E402
+import generar_diccionario as base  # noqa: E402
 
 SALIDA = base.RAIZ / "documentacion" / "diccionario_datos.xlsx"
 
