@@ -3,12 +3,11 @@
 Este documento explica cómo se pasó del caso de negocio al modelo E-R, del E-R al modelo relacional, cómo
 se justificó la normalización hasta 3FN y por qué se tomó cada decisión técnica.
 
-* Diagrama E-R: [`diagramas/er/modelo_er.png`](../diagramas/er/modelo_er.png) (también `.pdf`)
-* Diagrama relacional: [`diagramas/relacional/modelo_relacional.png`](../diagramas/relacional/modelo_relacional.png) (también `.pdf`)
+* Diagrama E-R: [`modelo/modelo_er.png`](../modelo/modelo_er.png) (también `.pdf`)
+* Diagrama relacional: [`modelo/modelo_relacional.png`](../modelo/modelo_relacional.png) (también `.pdf`)
 * Los dos diagramas se hicieron en MySQL Workbench; el modelo editable es
-  [`diagramas/workbench/modelo_gestion_deportiva.mwb`](../diagramas/workbench/modelo_gestion_deportiva.mwb).
-* Diccionario de datos: [`diccionario_datos.md`](diccionario_datos.md)
-* Reglas de negocio y cómo se implementan: [`reglas_negocio.md`](reglas_negocio.md)
+  [`modelo/modelo_gestion_deportiva.mwb`](../modelo/modelo_gestion_deportiva.mwb).
+* Diccionario de datos: [`modelo/diccionario_datos.md`](../modelo/diccionario_datos.md) (también en Excel: `modelo/diccionario_datos.xlsx`)
 
 ---
 
@@ -168,66 +167,3 @@ combinación única y el deporte no tiene atributos propios en este caso; separa
 eliminaría ninguna dependencia transitiva relevante y, además, el documento exige 1.000 registros por
 tabla, lo que obligaría a inventar deportes. Si en el futuro el deporte tuviera atributos propios
 (reglamento, federación), se crearía la tabla `deporte` y `disciplina` pasaría a tener una FK.
-
-## 5. Decisiones técnicas
-
-| Decisión | Justificación |
-|---|---|
-| **Especialización PERSONA → DEPORTISTA / ENTRENADOR** | Cumple "sin duplicar la información de personas": una persona que es deportista y entrenador tiene un solo documento, correo y nombre. `UNIQUE (id_persona)` en cada subtipo asegura el 1:1 |
-| **Marcador dentro de `encuentro`** | El resultado es 1:1 con el encuentro. Así la regla 6 se resuelve con un `CHECK` de la misma fila: `resultado_definitivo = 0 OR (estado = 'FINALIZADO' AND puntaje_local IS NOT NULL)` |
-| **`resultado_definitivo` separado de `estado`** | Un encuentro puede estar FINALIZADO pero con el resultado pendiente de homologación. Las estadísticas (consultas 4 y 10) solo cuentan resultados definitivos |
-| **DEFAULT documentados (regla 7)** | `inscripcion.estado = 'PENDIENTE'`, `encuentro.estado = 'PROGRAMADO'`, `encuentro.resultado_definitivo = 0`, `torneo.estado = 'PROGRAMADO'`, `deportista.estado = 'ACTIVO'`, `escenario.estado = 'DISPONIBLE'` |
-| **Estados con `CHECK ... IN (...)` en vez de tablas de estados** | Son listas cortas y estables; un CHECK es más simple de explicar. Una tabla catálogo de estados obligaría además a cargar 1.000 registros sin sentido |
-| **`fecha_fin` NULL = vigente** | Permite saber quién está activo hoy (`fecha_fin IS NULL`) y conservar el historial completo (reglas 2 y 3) |
-| **Triggers para reglas entre filas** | Un `CHECK` solo ve la fila que se inserta. Para comparar con otras filas (solapamiento de periodos, fechas del torneo, inscripción aprobada, integrante vigente) se usan triggers `AFTER INSERT, UPDATE` que lanzan `THROW` y deshacen la operación. Se nombran `tr_<tabla>_validar` |
-| **`UNIQUE (id_escenario, fecha_hora)`** | Evita asignar dos encuentros al mismo escenario a la misma hora (asignación de escenarios) con una restricción simple |
-| **FK sin `ON DELETE CASCADE`** | Se prefiere impedir el borrado de datos con historial (por ejemplo, una disciplina con torneos). Los retiros se manejan con columnas `estado` |
-| **Índices en columnas FK** | SQL Server no crea índices para las FK; se agregaron en las columnas usadas en JOIN y filtros |
-| **`NVARCHAR` para textos con tildes** | Nombres de personas, ciudades y deportes (Muñoz, Bogotá, Fútbol). Códigos y estados en `VARCHAR` |
-| **Nombres de restricciones explícitos** | Los mensajes de error indican exactamente qué regla falló (`ck_escenario_capacidad`, etc.), útil en pruebas y en la sustentación |
-| **Scripts separados por responsabilidad** | 00 reinicio, 01 tablas, 02 restricciones y triggers, 03 datos, 04 vistas, 05 consultas, 06 pruebas, 07 metadatos |
-
-## 6. Estrategia de datos semilla
-
-* Los datos se generan con [`scripts/generador/generar_datos_semilla.py`](../scripts/generador/generar_datos_semilla.py)
-  con semilla fija (`random.seed(2026)`) y fecha de referencia 2026-11-01. Ejecutarlo dos veces produce
-  exactamente el mismo `03_datos_semilla.sql` (verificado con hash MD5).
-* El script SQL usa `IDENTITY_INSERT` para que los identificadores (y por lo tanto las FK) sean iguales en
-  cualquier servidor.
-* El generador respeta las reglas: periodos de entrenadores e integrantes sin cruces, membresías después de
-  la fundación del equipo, sexo coherente con la rama, encuentros dentro de las fechas del torneo y solo
-  entre equipos con inscripción aprobada (calendario todos contra todos), marcadores coherentes con cada
-  deporte (en voleibol no hay empates, en baloncesto siempre hay ganador), resultados definitivos solo en
-  encuentros finalizados y participaciones solo de integrantes vigentes. Aun así, la carga pasa por todas
-  las restricciones y triggers de SQL Server, que habrían rechazado cualquier dato inválido.
-* No se repiten filas artificialmente: las 1.035 disciplinas son combinaciones distintas de deporte,
-  modalidad, rama y categoría; los nombres, documentos y correos son ficticios (dominio reservado
-  `.example`).
-* Se dejan casos para demostrar la regla 8: 285 escenarios sin encuentros y 101 equipos sin partidos.
-
-| Tabla | Registros |
-|---|---:|
-| disciplina | 1.035 |
-| persona | 9.000 |
-| deportista | 8.000 |
-| entrenador | 1.200 |
-| equipo | 1.200 |
-| entrenador_equipo | 6.490 |
-| integrante_equipo | 20.063 |
-| escenario | 1.100 |
-| torneo | 1.000 |
-| inscripcion | 6.310 |
-| encuentro | 12.289 |
-| participacion_encuentro | 112.506 |
-
-## 7. Limitaciones conocidas (documentadas a propósito)
-
-* Si se cambian las fechas de un torneo después de crear sus encuentros, o las fechas de un integrante
-  después de registrar sus participaciones, los triggers de `encuentro` y `participacion_encuentro` no se
-  vuelven a ejecutar. En la operación normal esas fechas no se editan; si se necesitara, se agregaría un
-  trigger en `torneo` e `integrante_equipo` con la misma comprobación.
-* No se valida que un deportista esté en un solo equipo a la vez dentro de la misma disciplina, porque en
-  la práctica un deportista puede estar en un club y en una selección simultáneamente. Sí se impide que
-  tenga dos periodos cruzados en el **mismo** equipo.
-* La consistencia entre MongoDB y SQL Server se mantiene por procedimiento (ver [`mongodb.md`](mongodb.md)),
-  porque no existe una FK entre motores.

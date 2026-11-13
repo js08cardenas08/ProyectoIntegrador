@@ -2,7 +2,7 @@
 
 Base de datos: **GestionDeportiva** (Microsoft SQL Server). 12 tablas.
 
-> Este diccionario se generó a partir del catálogo real de SQL Server (`scripts/sqlserver/07_metadatos_diccionario.sql`) con `scripts/generador/generar_diccionario.py`; por eso los tipos, longitudes, nulabilidad, DEFAULT y restricciones coinciden exactamente con la implementación. Las descripciones y reglas de negocio se redactaron para el caso.
+> Los tipos, longitudes, nulabilidad, valores por defecto y restricciones de este diccionario se tomaron del catálogo de la base de datos en SQL Server, por eso coinciden con el diseño. Las descripciones y reglas de negocio se redactaron para el caso.
 
 **Convenciones:** `pk_` clave primaria · `fk_` clave foránea · `uq_` único · `ck_` verificación · `df_` valor por defecto · `tr_` trigger. Todas las PK son `INT IDENTITY(1,1)` (claves sustitutas). Los textos con nombres de personas, lugares o deportes usan `NVARCHAR` para soportar tildes y eñes; los códigos y estados usan `VARCHAR`.
 

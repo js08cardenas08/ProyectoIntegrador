@@ -19,6 +19,7 @@ Integrantes: **Juan Sebastián Cárdenas** y **Juan David Segura**.
 | 2026-11-10 | Validación final: reconstrucción completa desde base vacía y re-ejecución de todas las pruebas | `evidencias/resultados/` |
 | 2026-11-11 | Diccionario de datos también en Excel | `documentacion/diccionario_datos.xlsx` |
 | 2026-11-11 | Diagramas E-R y relacional rehechos en MySQL Workbench a partir de la estructura traducida a MySQL; reemplazan a los anteriores | `diagramas/er/`, `diagramas/relacional/`, `diagramas/workbench/` |
+| 2026-11-13 | Primera entrega: la rama `main` queda solo con el modelo (E-R, relacional, diccionario y decisiones de diseño); el resto del trabajo se conserva en la rama `desarrollo-completo` | `modelo/`, `documentacion/` |
 
 ## Problemas encontrados y cómo se resolvieron
 
@@ -34,7 +35,7 @@ Integrantes: **Juan Sebastián Cárdenas** y **Juan David Segura**.
 
 Usamos Claude (Anthropic) como apoyo para generar y depurar los scripts SQL, MongoDB y Python, ejecutar las
 pruebas en SQL Server 2022 y MongoDB 7 y redactar la documentación. Las cifras y resultados de las pruebas
-salen de ejecuciones reales guardadas en `evidencias/resultados/`.
+salen de ejecuciones reales guardadas en `evidencias/resultados/` (rama `desarrollo-completo`).
 
 ## Aporte individual de cada integrante
 
