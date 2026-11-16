@@ -25,6 +25,16 @@ verifican (ver [`pruebas.md`](pruebas.md) y [`06_pruebas_restricciones.sql`](../
 | Datos con formato y rango válido | `ck_persona_correo`, `ck_persona_fecha_nacimiento`, `ck_persona_numero_documento`, `ck_integrante_equipo_camiseta` (0–99), `ck_participacion_minutos` (0–300), `ck_participacion_calificacion` (0–10), `ck_entrenador_anios_experiencia` (0–60) | P18–P21 |
 | No se borran datos con historial | FK sin `ON DELETE CASCADE` | P10 |
 
+## Por qué la regla 6 usa un CHECK y no un trigger
+
+La regla "el resultado solo puede ser definitivo si el encuentro finalizó" compara dos columnas **de la misma
+fila** (`resultado_definitivo` y `estado`). Para eso basta un `CHECK`: SQL Server lo evalúa en cada `INSERT` y
+`UPDATE` y rechaza la operación antes de guardar (pruebas P37 y P38: declarar definitivo un encuentro
+`EN_JUEGO` o `PROGRAMADO` se rechaza; P42: al pasar a `FINALIZADO` sí se acepta). El documento del proyecto
+pide usar un trigger o un procedimiento solo cuando la regla **no** puede expresarse con una restricción
+simple. Lo que sí necesita otra fila, el valor anterior en la tabla `deleted`, se resuelve con el trigger
+`tr_encuentro_validar`: un resultado que ya es definitivo no se puede cambiar (P43).
+
 ## Por qué algunas reglas usan triggers
 
 El documento pide no afirmar que un `CHECK` valida otras filas. Un `CHECK` en SQL Server solo evalúa los
