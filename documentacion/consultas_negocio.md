@@ -87,6 +87,12 @@ con 0 jugados gracias al `LEFT JOIN`.
 suspendido o pendiente de homologación no altera las estadísticas. Los empates solo aparecen en deportes
 que los permiten (fútbol, hockey, balonmano, rugby); en baloncesto o voleibol siempre hay ganador.
 
+**Local y visitante:** un equipo puede jugar como local o como visitante. La vista `vw_resultado_equipo`
+une con `UNION ALL` las dos perspectivas (una fila por equipo y encuentro), así cada equipo suma todos sus
+partidos. Comprobación: para los 1.200 equipos, los partidos que cuenta la vista son iguales a contar
+directamente sus apariciones como local más sus apariciones como visitante, y el total de victorias es igual
+al total de derrotas.
+
 ## Consulta 5. Mostrar encuentros con torneo, participantes y escenario
 
 **Propósito:** ficha completa de un torneo (`@codigo_torneo = 'TOR-0007'`, *Copa Interclubes Fútbol 11
@@ -126,6 +132,9 @@ ninguna aprobada que le haya permitido jugar.
 **Interpretación:** son equipos para promover en próximas convocatorias o revisar si deben pasar a
 estado `INACTIVO`.
 
+**Local y visitante:** el `NOT EXISTS` revisa las dos columnas (`id_equipo_local` e `id_equipo_visitante`).
+Si solo se revisara la de local, aparecerían además 3 equipos que sí jugaron, pero solo como visitantes.
+
 ## Consulta 8. Identificar torneos con más encuentros que el promedio
 
 **Propósito:** reconocer los torneos que exigen más logística.
@@ -157,6 +166,8 @@ promedio (escala 0–10).
   hay empate en el primer lugar y por eso se muestran varios equipos: la subconsulta correlacionada
   `v.victorias = (SELECT MAX(...) ... WHERE v2.id_torneo = v.id_torneo)` devuelve **todos** los que
   alcanzan el máximo, en lugar de escoger uno arbitrariamente.
+* Las victorias de cada equipo incluyen las que obtuvo como local y como visitante, porque la consulta parte
+  de la vista `vw_resultado_equipo` (`UNION ALL` de las dos perspectivas), igual que la consulta 4.
 
 **Interpretación:** permite premiar o sembrar equipos para el siguiente torneo. Si se necesitara un
 único campeón, el desempate se haría con puntos a favor menos puntos en contra (criterio que se puede

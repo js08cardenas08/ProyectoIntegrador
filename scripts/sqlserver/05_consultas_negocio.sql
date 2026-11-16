@@ -97,6 +97,9 @@ GO
    Solo cuentan resultados definitivos (regla 6). Se usa LEFT JOIN desde
    equipo para incluir también a los equipos sin partidos (regla 8), que
    aparecen con 0.
+   Local y visitante: la vista vw_resultado_equipo (script 04) une con
+   UNION ALL las dos perspectivas, una fila por equipo y encuentro, así un
+   equipo suma lo que jugó como local y lo que jugó como visitante.
    Técnicas: vista, LEFT JOIN, COUNT, SUM con CASE, GROUP BY, ORDER BY.
    ===================================================================== */
 PRINT N'=== CONSULTA 4: victorias, derrotas y empates por equipo ===';
@@ -186,6 +189,8 @@ GO
    Propósito: detectar equipos inscritos en el sistema que no han jugado
    (regla 8). "Disputar" = jugar un encuentro (EN_JUEGO, FINALIZADO o
    SUSPENDIDO); un partido solo programado o cancelado no cuenta.
+   El NOT EXISTS revisa las dos columnas (id_equipo_local e
+   id_equipo_visitante), así no aparece un equipo que solo jugó de visitante.
    Técnicas: subconsulta NOT EXISTS, JOIN, ORDER BY.
    ===================================================================== */
 PRINT N'=== CONSULTA 7: equipos que nunca han disputado encuentros ===';
@@ -266,6 +271,8 @@ GO
    10a: un torneo concreto (parámetro) con la tabla de victorias.
    10b: todos los torneos: equipo(s) con el máximo de victorias, usando
         una subconsulta correlacionada; si hay empate se muestran todos.
+   Las victorias se cuentan como local y como visitante gracias a la vista
+   vw_resultado_equipo (UNION ALL de las dos perspectivas).
    Técnicas: CTE (WITH), vista, GROUP BY, subconsulta correlacionada, MAX.
    ===================================================================== */
 PRINT N'=== CONSULTA 10a: victorias por equipo en un torneo ===';
