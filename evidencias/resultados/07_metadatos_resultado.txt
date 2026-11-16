@@ -1,0 +1,149 @@
+Changed database context to 'GestionDeportiva'.
+tabla|orden|columna|tipo|longitud|nulabilidad|identidad|valor_default|pk|fk
+-----|-----|-------|----|--------|-----------|---------|-------------|--|--
+deportista|1|id_deportista|int||NOT NULL|IDENTITY(1,1)||PK|
+deportista|2|id_persona|int||NOT NULL||||FK -> persona.id_persona
+deportista|3|id_disciplina|int||NOT NULL||||FK -> disciplina.id_disciplina
+deportista|4|estado|varchar|12|NOT NULL||('ACTIVO')||
+deportista|5|fecha_ingreso|date||NOT NULL||(CONVERT([date],getdate()))||
+disciplina|1|id_disciplina|int||NOT NULL|IDENTITY(1,1)||PK|
+disciplina|2|codigo|varchar|20|NOT NULL||||
+disciplina|3|deporte|nvarchar|40|NOT NULL||||
+disciplina|4|modalidad|nvarchar|40|NOT NULL||||
+disciplina|5|rama|varchar|10|NOT NULL||||
+disciplina|6|categoria|varchar|12|NOT NULL||||
+disciplina|7|tipo_participacion|varchar|10|NOT NULL||||
+encuentro|1|id_encuentro|int||NOT NULL|IDENTITY(1,1)||PK|
+encuentro|2|id_torneo|int||NOT NULL||||FK -> torneo.id_torneo
+encuentro|3|id_escenario|int||NOT NULL||||FK -> escenario.id_escenario
+encuentro|4|id_equipo_local|int||NOT NULL||||FK -> equipo.id_equipo
+encuentro|5|id_equipo_visitante|int||NOT NULL||||FK -> equipo.id_equipo
+encuentro|6|fecha_hora|datetime2|0|NOT NULL||||
+encuentro|7|jornada|smallint||NOT NULL||((1))||
+encuentro|8|estado|varchar|12|NOT NULL||('PROGRAMADO')||
+encuentro|9|puntaje_local|smallint||NULL||||
+encuentro|10|puntaje_visitante|smallint||NULL||||
+encuentro|11|resultado_definitivo|bit||NOT NULL||((0))||
+entrenador|1|id_entrenador|int||NOT NULL|IDENTITY(1,1)||PK|
+entrenador|2|id_persona|int||NOT NULL||||FK -> persona.id_persona
+entrenador|3|numero_licencia|varchar|20|NOT NULL||||
+entrenador|4|nivel_licencia|varchar|12|NOT NULL||||
+entrenador|5|anios_experiencia|tinyint||NOT NULL||((0))||
+entrenador|6|estado|varchar|10|NOT NULL||('ACTIVO')||
+entrenador|7|fecha_ingreso|date||NOT NULL||(CONVERT([date],getdate()))||
+entrenador_equipo|1|id_asignacion|int||NOT NULL|IDENTITY(1,1)||PK|
+entrenador_equipo|2|id_entrenador|int||NOT NULL||||FK -> entrenador.id_entrenador
+entrenador_equipo|3|id_equipo|int||NOT NULL||||FK -> equipo.id_equipo
+entrenador_equipo|4|rol|varchar|20|NOT NULL||('PRINCIPAL')||
+entrenador_equipo|5|fecha_inicio|date||NOT NULL||||
+entrenador_equipo|6|fecha_fin|date||NULL||||
+equipo|1|id_equipo|int||NOT NULL|IDENTITY(1,1)||PK|
+equipo|2|codigo|varchar|20|NOT NULL||||
+equipo|3|nombre|nvarchar|80|NOT NULL||||
+equipo|4|id_disciplina|int||NOT NULL||||FK -> disciplina.id_disciplina
+equipo|5|ciudad|nvarchar|50|NOT NULL||||
+equipo|6|fecha_fundacion|date||NOT NULL||||
+equipo|7|estado|varchar|10|NOT NULL||('ACTIVO')||
+escenario|1|id_escenario|int||NOT NULL|IDENTITY(1,1)||PK|
+escenario|2|codigo|varchar|20|NOT NULL||||
+escenario|3|nombre|nvarchar|80|NOT NULL||||
+escenario|4|tipo|varchar|12|NOT NULL||||
+escenario|5|ciudad|nvarchar|50|NOT NULL||||
+escenario|6|direccion|nvarchar|100|NOT NULL||||
+escenario|7|capacidad|int||NOT NULL||||
+escenario|8|estado|varchar|15|NOT NULL||('DISPONIBLE')||
+inscripcion|1|id_inscripcion|int||NOT NULL|IDENTITY(1,1)||PK|
+inscripcion|2|id_torneo|int||NOT NULL||||FK -> torneo.id_torneo
+inscripcion|3|id_equipo|int||NOT NULL||||FK -> equipo.id_equipo
+inscripcion|4|fecha_inscripcion|date||NOT NULL||(CONVERT([date],getdate()))||
+inscripcion|5|estado|varchar|10|NOT NULL||('PENDIENTE')||
+integrante_equipo|1|id_integrante|int||NOT NULL|IDENTITY(1,1)||PK|
+integrante_equipo|2|id_deportista|int||NOT NULL||||FK -> deportista.id_deportista
+integrante_equipo|3|id_equipo|int||NOT NULL||||FK -> equipo.id_equipo
+integrante_equipo|4|funcion|varchar|10|NOT NULL||('TITULAR')||
+integrante_equipo|5|numero_camiseta|tinyint||NULL||||
+integrante_equipo|6|fecha_inicio|date||NOT NULL||||
+integrante_equipo|7|fecha_fin|date||NULL||||
+participacion_encuentro|1|id_participacion|int||NOT NULL|IDENTITY(1,1)||PK|
+participacion_encuentro|2|id_encuentro|int||NOT NULL||||FK -> encuentro.id_encuentro
+participacion_encuentro|3|id_deportista|int||NOT NULL||||FK -> deportista.id_deportista
+participacion_encuentro|4|id_equipo|int||NOT NULL||||FK -> equipo.id_equipo
+participacion_encuentro|5|es_titular|bit||NOT NULL||((1))||
+participacion_encuentro|6|minutos_jugados|smallint||NULL||||
+participacion_encuentro|7|calificacion|decimal|3,1|NULL||||
+persona|1|id_persona|int||NOT NULL|IDENTITY(1,1)||PK|
+persona|2|tipo_documento|varchar|3|NOT NULL||||
+persona|3|numero_documento|varchar|20|NOT NULL||||
+persona|4|nombres|nvarchar|60|NOT NULL||||
+persona|5|apellidos|nvarchar|60|NOT NULL||||
+persona|6|fecha_nacimiento|date||NOT NULL||||
+persona|7|sexo|char|1|NOT NULL||||
+persona|8|correo|varchar|100|NOT NULL||||
+persona|9|telefono|varchar|15|NULL||||
+persona|10|fecha_registro|datetime2|0|NOT NULL||(sysdatetime())||
+torneo|1|id_torneo|int||NOT NULL|IDENTITY(1,1)||PK|
+torneo|2|codigo|varchar|20|NOT NULL||||
+torneo|3|nombre|nvarchar|100|NOT NULL||||
+torneo|4|id_disciplina|int||NOT NULL||||FK -> disciplina.id_disciplina
+torneo|5|fecha_inicio|date||NOT NULL||||
+torneo|6|fecha_fin|date||NOT NULL||||
+torneo|7|estado|varchar|12|NOT NULL||('PROGRAMADO')||
+tabla|restriccion|tipo|definicion
+-----|-----------|----|----------
+deportista|ck_deportista_estado|CHECK|([estado]='RETIRADO' OR [estado]='SUSPENDIDO' OR [estado]='LESIONADO' OR [estado]='ACTIVO')
+deportista|uq_deportista_persona|UNIQUE|id_persona
+disciplina|ck_disciplina_categoria|CHECK|([categoria]='ELITE' OR [categoria]='AVANZADA' OR [categoria]='INTERMEDIA' OR [categoria]='AFICIONADA' OR [categoria]='RECREATIVA')
+disciplina|ck_disciplina_rama|CHECK|([rama]='MIXTA' OR [rama]='FEMENINA' OR [rama]='MASCULINA')
+disciplina|ck_disciplina_tipo|CHECK|([tipo_participacion]='INDIVIDUAL' OR [tipo_participacion]='CONJUNTO')
+disciplina|uq_disciplina_codigo|UNIQUE|codigo
+disciplina|uq_disciplina_combinacion|UNIQUE|deporte, modalidad, rama, categoria
+encuentro|ck_encuentro_equipos_distintos|CHECK|([id_equipo_local]<>[id_equipo_visitante])
+encuentro|ck_encuentro_estado|CHECK|([estado]='CANCELADO' OR [estado]='SUSPENDIDO' OR [estado]='FINALIZADO' OR [estado]='EN_JUEGO' OR [estado]='PROGRAMADO')
+encuentro|ck_encuentro_jornada|CHECK|([jornada]>(0))
+encuentro|ck_encuentro_puntajes_completos|CHECK|([puntaje_local] IS NULL AND [puntaje_visitante] IS NULL OR [puntaje_local] IS NOT NULL AND [puntaje_visitante] IS NOT NULL)
+encuentro|ck_encuentro_puntajes_no_negativos|CHECK|([puntaje_local]>=(0) AND [puntaje_visitante]>=(0))
+encuentro|ck_encuentro_puntajes_segun_estado|CHECK|([estado]='SUSPENDIDO' OR [estado]='FINALIZADO' OR [estado]='EN_JUEGO' OR [puntaje_local] IS NULL AND [puntaje_visitante] IS NULL)
+encuentro|ck_encuentro_resultado_definitivo|CHECK|([resultado_definitivo]=(0) OR [estado]='FINALIZADO' AND [puntaje_local] IS NOT NULL)
+encuentro|uq_encuentro_escenario_fecha|UNIQUE|id_escenario, fecha_hora
+entrenador|ck_entrenador_anios_experiencia|CHECK|([anios_experiencia]>=(0) AND [anios_experiencia]<=(60))
+entrenador|ck_entrenador_estado|CHECK|([estado]='INACTIVO' OR [estado]='ACTIVO')
+entrenador|ck_entrenador_nivel|CHECK|([nivel_licencia]='PROFESIONAL' OR [nivel_licencia]='AVANZADO' OR [nivel_licencia]='INTERMEDIO' OR [nivel_licencia]='BASICO')
+entrenador|uq_entrenador_licencia|UNIQUE|numero_licencia
+entrenador|uq_entrenador_persona|UNIQUE|id_persona
+entrenador_equipo|ck_entrenador_equipo_fechas|CHECK|([fecha_fin] IS NULL OR [fecha_fin]>=[fecha_inicio])
+entrenador_equipo|ck_entrenador_equipo_rol|CHECK|([rol]='PREPARADOR_FISICO' OR [rol]='ASISTENTE' OR [rol]='PRINCIPAL')
+entrenador_equipo|uq_entrenador_equipo_inicio|UNIQUE|id_entrenador, id_equipo, fecha_inicio
+equipo|ck_equipo_estado|CHECK|([estado]='INACTIVO' OR [estado]='ACTIVO')
+equipo|uq_equipo_codigo|UNIQUE|codigo
+equipo|uq_equipo_nombre_disciplina|UNIQUE|nombre, id_disciplina
+escenario|ck_escenario_capacidad|CHECK|([capacidad]>(0))
+escenario|ck_escenario_estado|CHECK|([estado]='INACTIVO' OR [estado]='MANTENIMIENTO' OR [estado]='DISPONIBLE')
+escenario|ck_escenario_tipo|CHECK|([tipo]='GIMNASIO' OR [tipo]='VELODROMO' OR [tipo]='PISTA' OR [tipo]='PISCINA' OR [tipo]='CANCHA' OR [tipo]='COLISEO' OR [tipo]='ESTADIO')
+escenario|uq_escenario_codigo|UNIQUE|codigo
+escenario|uq_escenario_nombre_ciudad|UNIQUE|nombre, ciudad
+inscripcion|ck_inscripcion_estado|CHECK|([estado]='RETIRADA' OR [estado]='RECHAZADA' OR [estado]='APROBADA' OR [estado]='PENDIENTE')
+inscripcion|uq_inscripcion_torneo_equipo|UNIQUE|id_torneo, id_equipo
+integrante_equipo|ck_integrante_equipo_camiseta|CHECK|([numero_camiseta] IS NULL OR [numero_camiseta]>=(0) AND [numero_camiseta]<=(99))
+integrante_equipo|ck_integrante_equipo_fechas|CHECK|([fecha_fin] IS NULL OR [fecha_fin]>=[fecha_inicio])
+integrante_equipo|ck_integrante_equipo_funcion|CHECK|([funcion]='RESERVA' OR [funcion]='SUPLENTE' OR [funcion]='TITULAR' OR [funcion]='CAPITAN')
+integrante_equipo|uq_integrante_equipo_inicio|UNIQUE|id_deportista, id_equipo, fecha_inicio
+participacion_encuentro|ck_participacion_calificacion|CHECK|([calificacion] IS NULL OR [calificacion]>=(0) AND [calificacion]<=(10))
+participacion_encuentro|ck_participacion_minutos|CHECK|([minutos_jugados] IS NULL OR [minutos_jugados]>=(0) AND [minutos_jugados]<=(300))
+participacion_encuentro|uq_participacion_encuentro_deportista|UNIQUE|id_encuentro, id_deportista
+persona|ck_persona_correo|CHECK|([correo] like '%_@_%._%')
+persona|ck_persona_fecha_nacimiento|CHECK|([fecha_nacimiento]>='1940-01-01' AND [fecha_nacimiento]<=CONVERT([date],getdate()))
+persona|ck_persona_numero_documento|CHECK|(NOT [numero_documento] like '%[^0-9A-Z]%' AND len([numero_documento])>=(5))
+persona|ck_persona_sexo|CHECK|([sexo]='M' OR [sexo]='F')
+persona|ck_persona_tipo_documento|CHECK|([tipo_documento]='PAS' OR [tipo_documento]='CE' OR [tipo_documento]='TI' OR [tipo_documento]='CC')
+persona|uq_persona_correo|UNIQUE|correo
+persona|uq_persona_documento|UNIQUE|tipo_documento, numero_documento
+torneo|ck_torneo_estado|CHECK|([estado]='CANCELADO' OR [estado]='FINALIZADO' OR [estado]='EN_CURSO' OR [estado]='PROGRAMADO')
+torneo|ck_torneo_fechas|CHECK|([fecha_fin]>=[fecha_inicio])
+torneo|uq_torneo_codigo|UNIQUE|codigo
+tabla|trigger_nombre
+-----|--------------
+encuentro|tr_encuentro_validar
+entrenador_equipo|tr_entrenador_equipo_validar
+inscripcion|tr_inscripcion_validar
+integrante_equipo|tr_integrante_equipo_validar
+participacion_encuentro|tr_participacion_validar

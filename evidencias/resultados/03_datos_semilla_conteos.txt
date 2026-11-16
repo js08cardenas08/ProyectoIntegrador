@@ -1,0 +1,16 @@
+Changed database context to 'GestionDeportiva'.
+tabla|registros
+-----|---------
+disciplina|1035
+persona|9000
+deportista|8000
+entrenador|1200
+equipo|1200
+entrenador_equipo|6490
+integrante_equipo|20063
+escenario|1100
+torneo|1000
+inscripcion|6310
+encuentro|12289
+participacion_encuentro|112506
+Script 03 finalizado: datos semilla cargados.
