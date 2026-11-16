@@ -129,7 +129,7 @@ mongosh "mongodb://localhost:27017" scripts/mongodb/productos.js
 ## Cómo comprobar que la solución funciona
 
 1. Al final de `03_datos_semilla.sql` se muestra el conteo de cada tabla: todas deben tener **1.000 o más**
-   registros (la menor es `entrenador` / `equipo` con 1.200).
+   registros (la menor es `torneo` con 1.000).
 2. `06_pruebas_restricciones.sql` termina con el resumen `PASA | 48`. Cada fila muestra la regla, lo
    esperado, lo obtenido y el mensaje real de SQL Server.
 3. `05_consultas_negocio.sql` devuelve 13 conjuntos de resultados; se pueden comparar con
@@ -176,7 +176,7 @@ y se exporta con *File > Export*.
 * **Integridad:** 12 PK, 18 FK, 17 UNIQUE, 33 CHECK, 17 DEFAULT, 11 índices y 5 triggers
   para las reglas que comparan con otras filas (solapamiento de periodos, fechas del torneo, inscripción
   aprobada, resultado definitivo inmodificable, participantes válidos).
-* **Datos:** generador con semilla fija; 1.035 a 112.506 registros por tabla, todos coherentes con las
+* **Datos:** generador con semilla fija; 1.000 a 112.506 registros por tabla, todos coherentes con las
   reglas.
 * **Consultas:** SELECT/WHERE/ORDER BY, agregaciones, GROUP BY/HAVING, JOIN de hasta 6 tablas,
   subconsultas (correlacionadas, NOT EXISTS, en HAVING), CTE y vistas.
