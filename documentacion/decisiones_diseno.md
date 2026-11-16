@@ -151,7 +151,7 @@ No hay dependencias transitivas (atributos no clave que dependan de otro atribut
 | Ciudad o capacidad del escenario en `encuentro` | Solo `id_escenario` |
 | Nombre de la disciplina (deporte + modalidad + rama + categoría) | No se almacena como columna: es un dato derivado que se arma en las consultas |
 | Victorias, derrotas, empates, puntos de cada equipo | **No se almacenan**: se calculan con la vista `vw_resultado_equipo`. Guardarlos causaría inconsistencias cuando cambia un resultado |
-| Edad del deportista | No se almacena (cambia con el tiempo); se calcula en `vw_deportista_detalle` desde `fecha_nacimiento` |
+| Edad del deportista | No se almacena (cambia con el tiempo); se calcula cuando se necesite desde `fecha_nacimiento` |
 | Ganador del encuentro | Se deduce comparando `puntaje_local` y `puntaje_visitante` |
 
 **Caso discutido — `participacion_encuentro.id_equipo`:** podría pensarse que es redundante porque el

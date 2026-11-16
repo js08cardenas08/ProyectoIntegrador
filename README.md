@@ -9,7 +9,7 @@ y los ejercicios de la guía de **MongoDB** (colección `productos`).
 | **Caso asignado** | Caso 5 — Gestión deportiva |
 | **Asignatura** | Bases de Datos — Ingeniería de Datos e Inteligencia Artificial |
 | **Integrantes** | Juan Sebastián Cárdenas · Juan David Segura |
-| **Base SQL Server** | `GestionDeportiva` (12 tablas, 3 vistas, 5 triggers) |
+| **Base SQL Server** | `GestionDeportiva` (12 tablas, 1 vista, 5 triggers) |
 | **Colección MongoDB** | `caso05_mongodb.productos` (ejercicios básico, intermedio y avanzado) |
 
 ## Contexto y reglas del caso
@@ -50,7 +50,7 @@ competencias**. Reglas implementadas (detalle en [`documentacion/reglas_negocio.
 │   │   ├── 01_crear_base_y_tablas.sql       base y 12 tablas (PK, NOT NULL, DEFAULT)
 │   │   ├── 02_restricciones_y_reglas.sql    FK, UNIQUE, CHECK, índices y triggers
 │   │   ├── 03_datos_semilla.sql             datos sintéticos (generado, ≥ 1.000 por tabla)
-│   │   ├── 04_vistas.sql                    3 vistas usadas por las consultas
+│   │   ├── 04_vistas.sql                    vista de resultados por equipo
 │   │   ├── 05_consultas_negocio.sql         10 consultas de negocio
 │   │   ├── 06_pruebas_restricciones.sql     48 pruebas válidas e inválidas
 │   │   └── 07_metadatos_diccionario.sql     metadatos para verificar el diccionario
@@ -84,7 +84,7 @@ tildes y eñes se lean correctamente.
 | 1 | `01_crear_base_y_tablas.sql` | Crea la base y las 12 tablas | segundos |
 | 2 | `02_restricciones_y_reglas.sql` | FK, UNIQUE, CHECK, índices y 5 triggers | segundos |
 | 3 | `03_datos_semilla.sql` | Carga 180.193 registros sintéticos | ~1 minuto |
-| 4 | `04_vistas.sql` | Crea 3 vistas | segundos |
+| 4 | `04_vistas.sql` | Crea la vista `vw_resultado_equipo` | segundos |
 | 5 | `05_consultas_negocio.sql` | Ejecuta las 10 consultas de negocio | segundos |
 | 6 | `06_pruebas_restricciones.sql` | Ejecuta 48 pruebas (no modifica datos) | segundos |
 | 7 | `07_metadatos_diccionario.sql` *(opcional)* | Muestra los metadatos para comparar con el diccionario | segundos |
@@ -132,7 +132,7 @@ mongosh "mongodb://localhost:27017" scripts/mongodb/productos.js
    registros (la menor es `torneo` con 1.000).
 2. `06_pruebas_restricciones.sql` termina con el resumen `PASA | 48`. Cada fila muestra la regla, lo
    esperado, lo obtenido y el mensaje real de SQL Server.
-3. `05_consultas_negocio.sql` devuelve 13 conjuntos de resultados; se pueden comparar con
+3. `05_consultas_negocio.sql` devuelve 11 conjuntos de resultados; se pueden comparar con
    [`documentacion/consultas_negocio.md`](documentacion/consultas_negocio.md). Como los datos son
    reproducibles, los resultados deben coincidir.
 4. El script de MongoDB muestra 3 productos con `$in`, 3 en el rango de precios, 2 con garantía mayor a
@@ -178,8 +178,8 @@ y se exporta con *File > Export*.
   aprobada, resultado definitivo inmodificable, participantes válidos).
 * **Datos:** generador con semilla fija; 1.000 a 112.506 registros por tabla, todos coherentes con las
   reglas.
-* **Consultas:** SELECT/WHERE/ORDER BY, agregaciones, GROUP BY/HAVING, JOIN de hasta 6 tablas,
-  subconsultas (correlacionadas, NOT EXISTS, en HAVING), CTE y vistas.
+* **Consultas:** SELECT/WHERE/ORDER BY, COUNT y SUM, GROUP BY/HAVING, JOIN de hasta 5 tablas,
+  subconsultas sencillas (NOT IN y promedio en HAVING) y una vista para juntar local y visitante.
 * **MongoDB:** colección `productos` con los ejercicios de la guía: `$in`, rango con `$gte`/`$lte`, objeto
   embebido `detalles` consultado con el operador punto, índice sobre `categoria`, `$group` y
   `explain("executionStats")`.

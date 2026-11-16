@@ -14,7 +14,7 @@ scripts, guardada en [`evidencias/resultados/`](../evidencias/resultados/).
 | C4 | Restricciones, índices y triggers | `02_restricciones_y_reglas.sql` | Sin errores | Sin errores; 5 triggers creados (ver `07_metadatos_resultado.txt`) |
 | C5 | Carga de datos semilla | `03_datos_semilla.sql` (pasa por todas las FK, CHECK y triggers) | ≥ 1.000 registros por tabla, sin errores | Sin errores; conteos abajo |
 | C6 | Datos reproducibles | Ejecutar el generador dos veces y comparar MD5 | Archivos idénticos | Mismo hash MD5 en ambas ejecuciones |
-| C7 | Vistas | `04_vistas.sql` | 3 vistas | Creadas sin errores |
+| C7 | Vistas | `04_vistas.sql` | 1 vista (`vw_resultado_equipo`) | Creadas sin errores |
 | C8 | Consultas | `05_consultas_negocio.sql` | 10 consultas ejecutan sin error | Sin errores (ver sección 4) |
 | C9 | Las pruebas no alteran los datos | Conteos antes y después de `06` | Iguales | Iguales (encuentro 12.289, inscripcion 6.310, integrante_equipo 20.063) |
 
@@ -147,19 +147,19 @@ Script: [`scripts/mongodb/productos.js`](../scripts/mongodb/productos.js)
 
 ## 4. Consultas de negocio
 
-Las 10 consultas (13 conjuntos de resultados) se ejecutaron sin errores. Filas obtenidas y su
+Las 10 consultas (11 conjuntos de resultados) se ejecutaron sin errores. Filas obtenidas y su
 interpretación: [`consultas_negocio.md`](consultas_negocio.md). Salida completa:
 [`05_consultas_negocio_resultado.txt`](../evidencias/resultados/05_consultas_negocio_resultado.txt).
 
 | Consulta | Filas | Comprobación de coherencia |
 |---|---:|---|
-| 1a / 1b | 70 / 23 | Los 70 lesionados de baloncesto de 1a coinciden con la columna "lesionados" de baloncesto en 1b |
+| 1a / 1b | 70 / 90 | Los 70 lesionados de baloncesto de 1a coinciden con la fila Baloncesto–LESIONADO de 1b |
 | 2 | 128 | Todas las fechas están entre 2026-10-01 y 2026-10-07 |
-| 3 | 11.322 | 978 torneos con encuentros × escenarios usados |
-| 4 | 1.200 | Igual al total de equipos (LEFT JOIN conserva los 101 sin partidos) |
+| 3 | 11.322 | Combinaciones torneo–escenario con al menos un encuentro |
+| 4 | 1.099 | 1.099 equipos con resultados + 101 sin partidos (consulta 7) = 1.200 equipos |
 | 5 | 10 | Torneo de 5 equipos: 5·4/2 = 10 encuentros |
-| 6a / 6b | 285 / 7 | 285 coincide con los escenarios sin encuentros de la verificación de calidad |
+| 6 | 496 | Todos disponibles y sin encuentros `PROGRAMADO` (119 canchas, 76 piscinas, 70 coliseos, 65 gimnasios, 64 pistas, 60 estadios, 42 velódromos) |
 | 7 | 101 | Coincide con los equipos sin partidos |
 | 8 | 465 | Todos con más de 12,29 encuentros |
 | 9 | 3.367 | Todos con más de 16,96 encuentros jugados |
-| 10a / 10b | 5 / 1.380 | 882 torneos con líder; 364 con empate en el primer lugar |
+| 10 | 5 | Los 5 equipos del torneo TOR-0007; victorias = derrotas en el total del torneo |

@@ -23,6 +23,7 @@ Integrantes: **Juan Sebastián Cárdenas** y **Juan David Segura**.
 | 2026-11-15 | El proyecto completo vuelve a `main` (la primera entrega queda en la rama `primera-entrega`); MongoDB se reduce a los ejercicios de la guía (colección `productos`) y se elimina `perfil_deportivo` | `scripts/mongodb/productos.js`, `documentacion/mongodb.md` |
 | 2026-11-15 | Revisión de correcciones: equipos distintos, resultado definitivo, DEFAULT de estados, capacidad y fechas (48/48 pruebas); consultas 4, 7 y 10 verificadas para local y visitante | `documentacion/consultas_negocio.md`, `evidencias/resultados/` |
 | 2026-11-15 | Diagramas corregidos en MySQL Workbench según la revisión técnica: participación opcional, `persona` 1:1 con sus subtipos, `resultado_definitivo` como `BIT(1)`, nota con las reglas 4 a 7 y E-R con atributos | `modelo/` |
+| 2026-11-16 | Consultas simplificadas al nivel del curso (SELECT, JOIN, WHERE, GROUP BY/HAVING, subconsultas con NOT IN y promedio); se deja solo la vista `vw_resultado_equipo` para juntar local y visitante; resultados regenerados y pruebas 48/48 | `04_vistas.sql`, `05_consultas_negocio.sql`, `consultas_negocio.md` |
 
 ## Problemas encontrados y cómo se resolvieron
 
