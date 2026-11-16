@@ -33,7 +33,7 @@ def tipo_mysql(c):
     if t == "datetime2":
         return "DATETIME"
     if t == "bit":
-        return "TINYINT(1)"
+        return "BIT(1)"
     return t.upper()   # INT, SMALLINT, TINYINT, DATE
 
 

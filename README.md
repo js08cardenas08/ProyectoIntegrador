@@ -152,11 +152,20 @@ python scripts/generador/generar_diccionario.py
 
 **Diagramas.** Se hicieron en MySQL Workbench: el script `modelo/gestion_deportiva_mysql.sql`
 (la misma estructura traducida al dialecto de MySQL) se importó con *File > Import > Reverse Engineer MySQL
-Create Script* y luego se ordenaron las tablas. Para cambiarlos se abre `modelo_gestion_deportiva.mwb` y se
-exporta con *File > Export*. El diagrama relacional usa la notación *Workbench (Default)*; el E-R usa
-*Workbench (PKs and FKs Only)*, que muestra solo las entidades, sus llaves y las relaciones con su
-cardinalidad (pata de gallo). Workbench no guarda las reglas CHECK ni los triggers de SQL Server; esas reglas
-están en `scripts/sqlserver/02_restricciones_y_reglas.sql` y en el diccionario.
+Create Script* y luego se ordenaron las tablas. Para cambiarlos se abre `modelo/modelo_gestion_deportiva.mwb`
+y se exporta con *File > Export*.
+
+* **Modelo E-R** (`modelo/modelo_er.png`): notación de objetos *IDEF1X*, que muestra cada entidad con su
+  identificador separado del resto de atributos y marca las claves foráneas `(FK)`.
+* **Modelo relacional** (`modelo/modelo_relacional.png`): notación *Workbench (Default)*, con todas las columnas,
+  tipos, PK, FK e índices.
+* En los dos, las relaciones usan pata de gallo con cardinalidad y participación: el círculo indica que una
+  ocurrencia puede no participar (por ejemplo, un escenario sin encuentros, regla 8) y la barra que la
+  participación es obligatoria (cada encuentro tiene un torneo). `persona` → `deportista` y `persona` →
+  `entrenador` son 1:1.
+* Workbench no guarda los `CHECK` ni los triggers de SQL Server, por eso el diagrama incluye una nota con las
+  reglas 4 a 7 (`CHECK`, `DEFAULT` y trigger). Equivalencia de tipos: `VARCHAR` ↔ `NVARCHAR`/`VARCHAR`,
+  `DATETIME` ↔ `DATETIME2`, `BIT(1)` ↔ `BIT`.
 
 ## Resumen de la solución
 

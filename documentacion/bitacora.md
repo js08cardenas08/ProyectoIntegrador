@@ -22,6 +22,7 @@ Integrantes: **Juan Sebastián Cárdenas** y **Juan David Segura**.
 | 2026-11-13 | Primera entrega: la rama `main` queda solo con el modelo (E-R, relacional, diccionario y decisiones de diseño); el resto del trabajo se conserva en la rama `desarrollo-completo` | `modelo/`, `documentacion/` |
 | 2026-11-15 | El proyecto completo vuelve a `main` (la primera entrega queda en la rama `primera-entrega`); MongoDB se reduce a los ejercicios de la guía (colección `productos`) y se elimina `perfil_deportivo` | `scripts/mongodb/productos.js`, `documentacion/mongodb.md` |
 | 2026-11-15 | Revisión de correcciones: equipos distintos, resultado definitivo, DEFAULT de estados, capacidad y fechas (48/48 pruebas); consultas 4, 7 y 10 verificadas para local y visitante | `documentacion/consultas_negocio.md`, `evidencias/resultados/` |
+| 2026-11-15 | Diagramas corregidos en MySQL Workbench según la revisión técnica: participación opcional, `persona` 1:1 con sus subtipos, `resultado_definitivo` como `BIT(1)`, nota con las reglas 4 a 7 y E-R con atributos | `modelo/` |
 
 ## Problemas encontrados y cómo se resolvieron
 
