@@ -1,0 +1,175 @@
+Ejecución: mongosh --quiet scripts/mongodb/productos.js  (MongoDB v7.0.45, 2026-11-15)
+
+==== BÁSICO 1. Crear la colección productos ====
+Colecciones en caso05_mongodb: productos
+
+==== BÁSICO 2. Insertar cinco productos (nombre, precio, stock, categoria) ====
+Documentos insertados: 5
+[
+  {
+    nombre: 'Balón de fútbol N.º 5',
+    precio: 120000,
+    stock: 40,
+    categoria: 'Balones'
+  },
+  {
+    nombre: 'Balón de baloncesto N.º 7',
+    precio: 150000,
+    stock: 25,
+    categoria: 'Balones'
+  },
+  {
+    nombre: 'Guayos de fútbol',
+    precio: 280000,
+    stock: 15,
+    categoria: 'Calzado'
+  },
+  {
+    nombre: 'Tenis de running',
+    precio: 350000,
+    stock: 10,
+    categoria: 'Calzado'
+  },
+  {
+    nombre: 'Raqueta de tenis',
+    precio: 420000,
+    stock: 8,
+    categoria: 'Raquetas'
+  }
+]
+
+==== BÁSICO 3. $in: productos de las categorías Balones y Raquetas ====
+[
+  {
+    nombre: 'Balón de fútbol N.º 5',
+    precio: 120000,
+    categoria: 'Balones'
+  },
+  {
+    nombre: 'Balón de baloncesto N.º 7',
+    precio: 150000,
+    categoria: 'Balones'
+  },
+  {
+    nombre: 'Raqueta de tenis',
+    precio: 420000,
+    categoria: 'Raquetas'
+  }
+]
+
+==== BÁSICO 4. Rango de precios entre 150.000 y 350.000 ($gte y $lte) ====
+[
+  {
+    nombre: 'Balón de baloncesto N.º 7',
+    precio: 150000
+  },
+  {
+    nombre: 'Guayos de fútbol',
+    precio: 280000
+  },
+  {
+    nombre: 'Tenis de running',
+    precio: 350000
+  }
+]
+
+==== INTERMEDIO 1. Agregar el objeto embebido detalles (garantia_meses, peso_kg) ====
+Productos con el campo detalles: 5
+[
+  {
+    nombre: 'Balón de fútbol N.º 5',
+    detalles: {
+      garantia_meses: 6,
+      peso_kg: 0.43
+    }
+  },
+  {
+    nombre: 'Balón de baloncesto N.º 7',
+    detalles: {
+      garantia_meses: 6,
+      peso_kg: 0.62
+    }
+  },
+  {
+    nombre: 'Guayos de fútbol',
+    detalles: {
+      garantia_meses: 12,
+      peso_kg: 0.9
+    }
+  },
+  {
+    nombre: 'Tenis de running',
+    detalles: {
+      garantia_meses: 18,
+      peso_kg: 0.6
+    }
+  },
+  {
+    nombre: 'Raqueta de tenis',
+    detalles: {
+      garantia_meses: 24,
+      peso_kg: 0.3
+    }
+  }
+]
+
+==== INTERMEDIO 2. Operador punto: productos con garantía superior a 12 meses ====
+[
+  {
+    nombre: 'Tenis de running',
+    detalles: {
+      garantia_meses: 18
+    }
+  },
+  {
+    nombre: 'Raqueta de tenis',
+    detalles: {
+      garantia_meses: 24
+    }
+  }
+]
+
+==== AVANZADO 1. Índice sobre el campo categoria ====
+Índice creado: categoria_1
+[
+  {
+    nombre: '_id_',
+    campos: {
+      _id: 1
+    }
+  },
+  {
+    nombre: 'categoria_1',
+    campos: {
+      categoria: 1
+    }
+  }
+]
+
+==== AVANZADO 2. Agregación $group: stock total por categoría ====
+[
+  {
+    _id: 'Balones',
+    stock_total: 65
+  },
+  {
+    _id: 'Calzado',
+    stock_total: 25
+  },
+  {
+    _id: 'Raquetas',
+    stock_total: 8
+  }
+]
+
+==== AVANZADO 3. explain("executionStats") de la consulta por categoría ====
+{
+  etapas_del_plan: [
+    'FETCH',
+    'IXSCAN (categoria_1)'
+  ],
+  documentos_devueltos: 2,
+  claves_de_indice_revisadas: 2,
+  documentos_revisados: 2,
+  tiempo_ms: 0
+}

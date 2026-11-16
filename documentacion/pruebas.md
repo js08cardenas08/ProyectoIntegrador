@@ -127,23 +127,23 @@ el trigger que produjo el rechazo, tomado del mensaje real de SQL Server.
 | Resultado definitivo (regla 6) | P37, P38, P39, P40, P42, P43 |
 | Participantes válidos (regla 5) | P32, P34, P44, P45, P46 |
 
-## 3. Pruebas de MongoDB (`perfil_deportivo`)
+## 3. Pruebas de MongoDB (`productos`)
 
-Script: [`scripts/mongodb/caso_05_funcionalidad.js`](../scripts/mongodb/caso_05_funcionalidad.js)
-· Evidencia: [`mongodb_caso_05_resultado.txt`](../evidencias/resultados/mongodb_caso_05_resultado.txt)
+Script: [`scripts/mongodb/productos.js`](../scripts/mongodb/productos.js)
+· Evidencia: [`mongodb_productos_resultado.txt`](../evidencias/resultados/mongodb_productos_resultado.txt)
 
-| # | Operación | Regla verificada | Esperado | Obtenido |
+| # | Nivel | Operación | Esperado | Obtenido |
 |---|---|---|---|---|
-| M1 | `createCollection` + `$jsonSchema` + índices | Esquema lógico mínimo | Colección e índices creados | Índices `_id_, uq_id_deportista_sql, ix_deporte` |
-| M2 | `insertMany` | ≥ 3 documentos coherentes | 5 insertados | 5 insertados |
-| M3 | `find` filtro simple, objeto anidado, arreglo (`$elemMatch`) y campo variable (`$exists`) | Consultas con filtro y características documentales | 1, 2, 2 y 3 documentos | 1, 2, 2 y 3 documentos |
-| M4 | `insertOne` documento de prueba | Documento controlado (`es_prueba: true`) | Insertado | Insertado |
-| M5 | `updateOne` + `findOne` | Actualización verificada | matched 1, modified 1, posición "Primera base" | matched 1, modified 1, verificación CORRECTA |
-| M6 | `deleteOne` + `countDocuments` | Borrar solo el documento de prueba | 1 eliminado, quedan 5 | 1 eliminado, ya no aparece, quedan 5 |
-| M7 | `insertOne` sin `id_deportista_sql` | Referencia obligatoria a SQL Server | Rechazado | "Document failed validation" |
-| M8 | `insertOne` perfil duplicado | Un perfil por deportista | Rechazado (11000) | Rechazado por el índice único |
-| M9 | Referencias contra SQL Server | Consistencia entre motores | 5 ids existen en `dbo.deportista` | `referencias_validas = 5` |
-| M10 | Ejecutar el script dos veces | Repetible | Misma salida | Salida idéntica |
+| M1 | Básico | `createCollection("productos")` | Colección creada | `productos` |
+| M2 | Básico | `insertMany` de 5 artículos | 5 insertados | 5 insertados |
+| M3 | Básico | `find` con `$in` (Balones, Raquetas) | 3 documentos | 3 documentos |
+| M4 | Básico | `find` con `$gte` 150.000 y `$lte` 350.000 | 3 documentos | 3 documentos |
+| M5 | Intermedio | `updateOne` con `$set` de `detalles` | 5 con `detalles` | 5 con `detalles` |
+| M6 | Intermedio | `find` con `"detalles.garantia_meses": { $gt: 12 }` | 2 documentos | 2 documentos (18 y 24 meses) |
+| M7 | Avanzado | `createIndex({ categoria: 1 })` | Índice creado | `categoria_1` |
+| M8 | Avanzado | `aggregate` con `$group` y `$sum` | Balones 65, Calzado 25, Raquetas 8 | Balones 65, Calzado 25, Raquetas 8 |
+| M9 | Avanzado | `explain("executionStats")` | Usa el índice | `IXSCAN (categoria_1)`, 2 documentos revisados |
+| M10 | — | Ejecutar el script dos veces | Misma salida | Salida idéntica |
 
 ## 4. Consultas de negocio
 
